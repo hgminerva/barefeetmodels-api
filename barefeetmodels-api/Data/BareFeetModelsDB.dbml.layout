@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="BareFeetModelsDB">
+  <DataContextMoniker Name="/BareFeetModelsDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="fd570de9-18c0-426d-a31b-0db16db2faf7" absoluteBounds="0.75, 1.625, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/BareFeetModelsDBDataContext/MstModel" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7b936329-5899-42f2-b5eb-143a87c23e35" absoluteBounds="0.765, 2.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="55693de5-6d53-4e5c-93f9-45e78f238784" absoluteBounds="3.5, 1, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/BareFeetModelsDBDataContext/MstVideo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1c4d3452-b294-4e33-939e-e5097ca14f6d" absoluteBounds="3.515, 1.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.31814697265625); (3.5 : 2.31814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BareFeetModelsDBDataContext/MstModel/MstModel_MstVideo" />
+      <nodes>
+        <classShapeMoniker Id="fd570de9-18c0-426d-a31b-0db16db2faf7" />
+        <classShapeMoniker Id="55693de5-6d53-4e5c-93f9-45e78f238784" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

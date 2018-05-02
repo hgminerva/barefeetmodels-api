@@ -1,0 +1,856 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+
+<div class="col-lg-12">
+    <ul class="nav nav-pills">
+        <li class="active"><a id="tab1" data-toggle="tab" href="#tabVideos">Videos</a></li>
+        <li><a id="tab2" data-toggle="tab" href="#tabModels">Models</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tabVideos" class="tab-pane fade in active">
+            <h3>Videos</h3>
+            <div class="col-md-12">
+                <button id="btnAddVideos" class="btn btn-primary pull-right" onclick="btnUploadVideoClick()">
+                    <i class="fa fa-plus fa-fw"></i>Upload
+                </button>
+                <br />
+                <br />
+            </div>
+            <div class="col-md-12">
+                <div id="grdVideos" class="grid col-sm-12"></div>
+                <br />
+                <div class="btn-group col-sm-12 pull-right" id="navGrdVideos">
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdVideosFirst">
+                        <span class="glyphicon glyphicon-fast-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdVideosPrevious">
+                        <span class="glyphicon glyphicon-step-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnNavGrdVideosCurrent"></button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdVideosNext">
+                        <span class="glyphicon glyphicon-step-forward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdVideosLast">
+                        <span class="glyphicon glyphicon-fast-forward"></span>
+                    </button>
+                </div>
+            </div>
+        </div> <!-- <div id="tabVideos" class="tab-pane fade in active"> -->
+
+        <div id="tabModels" class="tab-pane fade">
+            <h3>Models</h3>
+            <div class="col-md-12">
+                <button id="btnAddModels" class="btn btn-primary pull-right" onclick="btnAddModelsClick()">
+                    <i class="fa fa-plus fa-fw"></i>Add
+                </button>
+                <br />
+                <br />
+            </div>
+            <div class="col-md-12">
+                <div id="grdModels" class="grid col-sm-12"></div>
+                <br />
+                <div class="btn-group col-sm-12 pull-right" id="navGrdModels">
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdModelsFirst">
+                        <span class="glyphicon glyphicon-fast-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdModelsPrevious">
+                        <span class="glyphicon glyphicon-step-backward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" disabled style="width: 100px" id="btnNavGrdModelsCurrent"></button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdModelsNext">
+                        <span class="glyphicon glyphicon-step-forward"></span>
+                    </button>
+                    <button type="button" class="btn btn-default border-custom" id="btnNavGrdModelsLast">
+                        <span class="glyphicon glyphicon-fast-forward"></span>
+                    </button>
+                </div>
+            </div>
+        </div> <!--  <div id="models" class="tab-pane fade"> -->
+
+    </div>
+
+</div>
+
+<br />
+<br />
+<br />
+<br />
+
+<div class="modal fade" id="mdlUploadVideo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">Upload Video</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <dl class="dl-horizontal">
+                        <dt>Title</dt>
+                        <dd>
+                            <input class="form-control" id="video_title" required maxlength="100" />
+                        </dd>
+                        <dt>Model</dt>
+                        <dd>
+                            <div id="video_model" class="comboBox-wide"></div>
+                        </dd>
+                        <dt>Description</dt>
+                        <dd>
+                            <textarea class="form-control" rows="5" id="video_description"></textarea>
+                        </dd>
+                        <dt>
+                            Upload
+                        </dt>
+                        <dd>
+                            <input id="video_file" type="file" />
+                        </dd>
+                    </dl>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-6">
+                    <div class="progress" style="display:none">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                            0%
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary" id="btnOkUploadVideoModal" onclick="btnOkUploadVideoModalClick()">
+                        Ok
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btnCancelUploadVideoModal" onclick="btnCancelUploadVideoModalClick()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlEditVideo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">Edit Video Information</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <dl class="dl-horizontal">
+                        <dt>Id</dt>
+                        <dd>
+                            <input class="form-control" id="video_edit_id" disabled />
+                        </dd>
+                        <dt>Title</dt>
+                        <dd>
+                            <input class="form-control" id="video_edit_title" required maxlength="100" />
+                        </dd>
+                        <dt>Model</dt>
+                        <dd>
+                            <div id="video_model_edit" class="comboBox-wide"></div>
+                        </dd>
+                        <dt>Description</dt>
+                        <dd>
+                            <textarea class="form-control" rows="5" id="video_edit_description"></textarea>
+                        </dd>
+                    </dl>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="btnOkEditVideoModal" onclick="btnOkEditVideoModalClick()">
+                    Ok
+                </button>
+                <button type="button" class="btn btn-danger" id="btnCancelEditVideoModal" onclick="btnCancelEditVideoModalClick()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlViewVideo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">View Video</h4>
+            </div>
+            <div class="modal-body">
+                <video id="video_view" width="320" height="240"></video>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnCancelViewVideoModal" onclick="btnCancelViewVideoModalClick()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdlEditModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">Edit Model</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <dl class="dl-horizontal">
+                        <dt>Id</dt>
+                        <dd>
+                            <input class="form-control" id="model_id" disabled />
+                        </dd>
+                        <dt>Name</dt>
+                        <dd>
+                            <input class="form-control" id="model_fullName" required maxlength="100" />
+                        </dd>
+                        <dt>Description</dt>
+                        <dd>
+                            <textarea class="form-control" rows="5" id="model_description"></textarea>
+                        </dd>
+                    </dl>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" id="btnOkEditModelModal" onclick="btnOkEditModelModalClick()">
+                    Ok
+                </button>
+                <button type="button" class="btn btn-danger" id="btnCancelEditModelModal" onclick="btnCancelEditModelModalClick()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var modelCollection;
+    var modelGrid;
+
+    var videoCollection;
+    var videoGrid;
+
+    var cboModel;
+    var cboModelEdit;
+
+    var btnNavGrdModelsFirst;
+    var btnNavGrdModelsPrevious;
+    var btnNavGrdModelsCurrent;
+    var btnNavGrdModelsNext;
+    var btnNavGrdModelsLast;
+
+    var btnNavGrdVideosFirst;
+    var btnNavGrdVideosPrevious;
+    var btnNavGrdVideosCurrent;
+    var btnNavGrdVideosNext;
+    var btnNavGrdVideosLast;
+
+    function getVideos() {
+        var videos = new wijmo.collections.ObservableArray;
+
+        $.ajax({
+            url: '/api/MstVideo/List',
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (results) {
+                if (results.length > 0) {
+                    for (i = 0; i < results.length; i++) {
+                        videos.push({
+                            editId: "<button class='btn btn-primary btn-xs btn-block' id='btnEditVideo' onclick='btnEditVideoClick()'><i class='fa fa-edit'></i> Edit</button>",
+                            viewId: "<button class='btn btn-primary btn-xs btn-block' id='btnViewVideo' onclick='btnViewVideoClick()'><i class='fa fa-view'></i> View</button>",
+                            id: results[i]["Id"],
+                            title: results[i]["Title"],
+                            description: results[i]["Description"],
+                            dateUploaded: results[i]["DateUploaded"],
+                            modelId: results[i]["ModelId"],
+                            model: results[i]["Model"],
+                            fileName: results[i]["FileName"],
+                            fileUrl: results[i]["FileUrl"],
+                            fileSizeInKb: results[i]["FileSizeInKb"],
+                            fileSizeInBytes: results[i]["FileSizeInBytes"]
+                        });
+                    }
+                }
+            }
+        });
+
+        return videos;
+    }
+    function makeVideoGrid() {
+        videoCollection = new wijmo.collections.CollectionView(getVideos());
+        videoCollection.canFilter = true;
+        videoCollection.pageSize = 15;
+
+        videoGrid = new wijmo.grid.FlexGrid('#grdVideos');
+        videoGrid.initialize({
+            columns: [
+                {
+                    "header": "Edit",
+                    "binding": "editId",
+                    "width": 70,
+                    "align": "center",
+                    "allowResizing": false,
+                    "allowSorting": false,
+                    "isContentHtml": true
+                },
+                {
+                    "header": "View",
+                    "binding": "viewId",
+                    "width": 70,
+                    "align": "center",
+                    "allowResizing": false,
+                    "allowSorting": false,
+                    "isContentHtml": true
+                },
+                {
+                    "header": "Title",
+                    "binding": "title",
+                    "allowSorting": true,
+                    "width": "*"
+                },
+                {
+                    "header": "Description",
+                    "binding": "description",
+                    "allowSorting": true,
+                    "width": "*"
+                },
+                {
+                    "header": "Date",
+                    "binding": "dateUploaded",
+                    "allowSorting": true,
+                    "width": 100
+                },
+                {
+                    "header": "Model",
+                    "binding": "model",
+                    "allowSorting": true,
+                    "width": "*"
+                },
+                {
+                    "header": "File",
+                    "binding": "fileName",
+                    "allowSorting": true,
+                    "width": "*"
+                },
+            ],
+            autoGenerateColumns: false,
+            itemsSource: videoCollection,
+            isReadOnly: true,
+            selectionMode: wijmo.grid.SelectionMode.Row
+        });
+        videoGrid.trackChanges = true;
+
+        updateNavGrdVideos();
+    }
+    function updateNavGrdVideos() {
+        document.getElementById('navGrdVideos').style.display = 'block';
+        if (videoCollection.pageIndex === 0) {
+            btnNavGrdVideosFirst.setAttribute('disabled', 'disabled');
+            btnNavGrdVideosPrevious.setAttribute('disabled', 'disabled');
+            btnNavGrdVideosNext.removeAttribute('disabled');
+            btnNavGrdVideosLast.removeAttribute('disabled');
+        } else if (videoCollection.pageIndex === (videoCollection.pageCount - 1)) {
+            btnNavGrdVideosFirst.removeAttribute('disabled');
+            btnNavGrdVideosPrevious.removeAttribute('disabled');
+            btnNavGrdVideosNext.setAttribute('disabled', 'disabled');
+            btnNavGrdVideosLast.setAttribute('disabled', 'disabled');
+        } else {
+            btnNavGrdVideosFirst.removeAttribute('disabled');
+            btnNavGrdVideosPrevious.removeAttribute('disabled');
+            btnNavGrdVideosNext.removeAttribute('disabled');
+            btnNavGrdVideosLast.removeAttribute('disabled');
+        }
+        btnNavGrdVideosCurrent.innerHTML = (videoCollection.pageIndex + 1) + ' / ' + videoCollection.pageCount;
+    }
+    function listenNavGrdVideos() {
+        btnNavGrdVideosFirst.addEventListener('click', function () {
+            modelCollection.moveToFirstPage();
+            updateNavGrdVideos();
+        });
+        btnNavGrdVideosPrevious.addEventListener('click', function () {
+            modelCollection.moveToPreviousPage();
+            updateNavGrdVideos();
+        });
+        btnNavGrdVideosNext.addEventListener('click', function () {
+            modelCollection.moveToNextPage();
+            updateNavGrdVideos();
+        });
+        btnNavGrdVideosLast.addEventListener('click', function () {
+            modelCollection.moveToLastPage();
+            updateNavGrdVideos();
+        });
+    }
+    function refreshVideoGrid() {
+        videoCollection = new wijmo.collections.CollectionView(getVideos());
+        videoGrid.itemsSource = videoCollection;
+        videoGrid.trackChanges = true;
+
+        updateNavGrdVideos();
+    }
+
+    function getModels() {
+        var models = new wijmo.collections.ObservableArray;
+
+        $.ajax({
+            url: '/api/MstModel/List',
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (results) {
+                if (results.length > 0) {
+                    for (i = 0; i < results.length; i++) {
+                        models.push({
+                            editId: "<button class='btn btn-primary btn-xs btn-block' id='btnEditModel' onclick='btnEditModelClick()'><i class='fa fa-edit'></i> Edit</button>",
+                            deleteId: "<button class='btn btn-danger btn-xs btn-block' id='btnDeleteModel' onclick='btnDeleteModelClick()'><i class='fa fa-trash'></i> Delete</button>",
+                            id: results[i]["Id"],
+                            fullName: results[i]["FullName"],
+                            description: results[i]["Description"]
+                        });
+                    }
+
+                    cboModel.dispose();
+                    cboModel = new wijmo.input.ComboBox('#video_model', {
+                        isEditable: false,
+                        itemsSource: models,
+                        displayMemberPath: "fullName",
+                        selectedValuePath: "id"
+                    });
+
+                    cboModelEdit.dispose();
+                    cboModelEdit = new wijmo.input.ComboBox('#video_model_edit', {
+                        isEditable: false,
+                        itemsSource: models,
+                        displayMemberPath: "fullName",
+                        selectedValuePath: "id"
+                    });
+                }
+            }
+        });
+
+        return models;
+    }
+    function makeModelGrid() {
+        modelCollection = new wijmo.collections.CollectionView(getModels());
+        modelCollection.canFilter = true;
+        modelCollection.pageSize = 15;
+
+        modelGrid = new wijmo.grid.FlexGrid('#grdModels');
+        modelGrid.initialize({
+            columns: [
+                {
+                    "header": "Edit",
+                    "binding": "editId",
+                    "width": 70,
+                    "align": "center",
+                    "allowResizing": false,
+                    "allowSorting": false,
+                    "isContentHtml": true
+                },
+                {
+                    "header": "Delete",
+                    "binding": "deleteId",
+                    "width": 70,
+                    "align": "center",
+                    "allowResizing": false,
+                    "allowSorting": false,
+                    "isContentHtml": true
+                },
+                {
+                    "header": "Name",
+                    "binding": "fullName",
+                    "allowSorting": true,
+                    "width": "*"
+                },
+                {
+                    "header": "Description",
+                    "binding": "description",
+                    "allowSorting": true,
+                    "width": "*"
+                }
+            ],
+            autoGenerateColumns: false,
+            itemsSource: modelCollection,
+            isReadOnly: true,
+            selectionMode: wijmo.grid.SelectionMode.Row
+        });
+        modelGrid.trackChanges = true;
+
+        updateNavGrdModels();
+    }
+    function updateNavGrdModels() {
+        document.getElementById('navGrdModels').style.display = 'block';
+        if (modelCollection.pageIndex === 0) {
+            btnNavGrdModelsFirst.setAttribute('disabled', 'disabled');
+            btnNavGrdModelsPrevious.setAttribute('disabled', 'disabled');
+            btnNavGrdModelsNext.removeAttribute('disabled');
+            btnNavGrdModelsLast.removeAttribute('disabled');
+        } else if (modelCollection.pageIndex === (modelCollection.pageCount - 1)) {
+            btnNavGrdModelsFirst.removeAttribute('disabled');
+            btnNavGrdModelsPrevious.removeAttribute('disabled');
+            btnNavGrdModelsNext.setAttribute('disabled', 'disabled');
+            btnNavGrdModelsLast.setAttribute('disabled', 'disabled');
+        } else {
+            btnNavGrdModelsFirst.removeAttribute('disabled');
+            btnNavGrdModelsPrevious.removeAttribute('disabled');
+            btnNavGrdModelsNext.removeAttribute('disabled');
+            btnNavGrdModelsLast.removeAttribute('disabled');
+        }
+        btnNavGrdModelsCurrent.innerHTML = (modelCollection.pageIndex + 1) + ' / ' + modelCollection.pageCount;
+    }
+    function listenNavGrdModels() {
+        btnNavGrdModelsFirst.addEventListener('click', function () {
+            modelCollection.moveToFirstPage();
+            updateNavGrdModels();
+        });
+        btnNavGrdModelsPrevious.addEventListener('click', function () {
+            modelCollection.moveToPreviousPage();
+            updateNavGrdModels();
+        });
+        btnNavGrdModelsNext.addEventListener('click', function () {
+            modelCollection.moveToNextPage();
+            updateNavGrdModels();
+        });
+        btnNavGrdModelsLast.addEventListener('click', function () {
+            modelCollection.moveToLastPage();
+            updateNavGrdModels();
+        });
+    }
+    function refreshModelGrid() {
+        modelCollection = new wijmo.collections.CollectionView(getModels());
+        modelGrid.itemsSource = modelCollection;
+        modelGrid.trackChanges = true;
+
+        updateNavGrdModels();
+    }
+
+    function uploadVideo() {
+        var data = new FormData();
+
+        data.append(document.getElementById('video_title').value, null);
+        data.append(cboModel.selectedValue, null);
+        data.append(document.getElementById('video_description').value, null);
+        data.append("File", document.getElementById('video_file').files[0], document.getElementById('video_file').files[0].name);
+
+        $('#btnOkUploadVideoModal').prop('disabled', true);
+        $('#btnCancelUploadVideoModal').prop('disabled', true);
+
+        $.ajax({
+            url: "/api/Blobs/Add",
+            method: "POST",
+            contentType: false,
+            processData: false,
+            data: data,
+            async: true,
+            xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                //Handle progress
+                //Upload progress
+                xhr.upload.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = (evt.loaded / evt.total) * 100;
+                        if (percentComplete >= 100) {
+                            $(".progress").width(percentComplete + '%');
+                            $(".progress").text(percentComplete + '% - Posting to storage..');
+                        } else {
+                            $(".progress").width(percentComplete + '%');
+                            $(".progress").text(percentComplete + '% - Loading..');
+                        }
+
+                        console.log(percentComplete);
+                    }
+                }, false);
+                return xhr;
+            },
+            success: function (data) {
+                alert("file uploaded..");
+                $('#mdlUploadVideo').modal('hide');
+                refreshVideoGrid();
+
+                $('#btnOkUploadVideoModal').prop('disabled', false);
+                $('#btnCancelUploadVideoModal').prop('disabled', false);
+            }
+        });
+    }
+
+    $('#tab1').click(function () {
+        $('#tabVideos').show();
+        $('#tabModels').hide();
+
+        refreshVideoGrid();
+    });
+    $('#tab2').click(function () {
+        $('#tabVideos').hide();
+        $('#tabModels').show();
+
+        refreshModelGrid();
+    });
+
+    // video list operations
+    function btnUploadVideoClick() {
+        $('#mdlUploadVideo').modal({
+            show: true,
+            backdrop: false
+        });
+
+        document.getElementById('video_title').value = "";
+        document.getElementById('video_model').value = "";
+        document.getElementById('video_description').value = "";
+        document.getElementById('video_file').value = "";
+
+        $(".progress").css("display", "block");
+        $(".progress").width('0%');
+        $(".progress").text('0%');
+    }
+    function btnEditVideoClick() {
+        videoCollection.editItem(videoCollection.currentItem);
+
+        $('#mdlEditVideo').modal({
+            show: true,
+            backdrop: false
+        });
+
+        var video_edit = videoCollection.currentEditItem;
+        document.getElementById('video_edit_id').value = video_edit.id;
+        document.getElementById('video_edit_title').value = video_edit.title ? video_edit.title : "";
+        cboModelEdit.selectedValue = video_edit.modelId;
+        document.getElementById('video_edit_description').value = video_edit.description ? video_edit.description : "";
+    }
+    function btnViewVideoClick() {
+        $('#mdlViewVideo').modal({
+            show: true,
+            backdrop: false
+        });
+
+        videoCollection.editItem(videoCollection.currentItem);
+
+        $.ajax({
+            url: '/api/MstVideo/Detail/' + videoCollection.currentEditItem.id,
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                if (result != null) {
+                    var fileUrl = result["FileUrl"];
+
+                    var video = document.getElementById('video_view');
+                    video.src = fileUrl;
+                    video.play();
+                }
+            }
+        });
+    }
+
+    // edit video modal operations
+    function btnOkEditVideoModalClick() {
+        var video_edit = new Object();
+
+        video_edit.Id = document.getElementById('video_edit_id').value;
+        video_edit.Title = document.getElementById('video_edit_title').value;
+        video_edit.ModelId = cboModelEdit.selectedValue;
+        video_edit.Description = document.getElementById('video_edit_description').value;
+
+        var data = JSON.stringify(video_edit);
+
+        $('#btnOkEditVideoModal').prop('disabled', true);
+        $('#btnCancelEditVideoModal').prop('disabled', true);
+
+        $.ajax({
+            type: "PUT",
+            url: "/api/MstVideo/Save",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: data,
+            statusCode: {
+                200: function () {
+                    alert('Successfully saved.');
+                    $('#mdlEditVideo').modal('hide');
+                    refreshVideoGrid();
+
+                    $('#btnOkEditVideoModal').prop('disabled', false);
+                    $('#btnCancelEditVideoModal').prop('disabled', false);
+                },
+                404: function () {
+                    alert("Not found.");
+
+                    $('#btnOkEditVideoModal').prop('disabled', false);
+                    $('#btnCancelEditVideoModal').prop('disabled', false);
+                },
+                400: function () {
+                    alert("Bad request.");
+
+                    $('#btnOkEditVideoModal').prop('disabled', false);
+                    $('#btnCancelEditVideoModal').prop('disabled', false);
+                }
+            }
+        });
+    }
+    function btnCancelEditVideoModalClick() {
+        $('#mdlEditVideo').modal('hide');
+    }
+    
+    // upload video modal operations
+    function btnOkUploadVideoModalClick() {
+        uploadVideo();
+    }
+    function btnCancelUploadVideoModalClick() {
+        $('#mdlUploadVideo').modal('hide');
+    }
+
+    // view video modal operations
+    function btnCancelViewVideoModalClick() {
+        $('#mdlViewVideo').modal('hide');
+    }
+
+    // model list operations
+    function btnAddModelsClick() {
+        $('#mdlEditModel').modal({
+            show: true,
+            backdrop: false
+        });
+
+        document.getElementById('model_id').value = 0;
+        document.getElementById('model_fullName').value = "";
+        document.getElementById('model_description').value = "";
+    }
+    function btnEditModelClick() {
+        modelCollection.editItem(modelCollection.currentItem);
+
+        $('#mdlEditModel').modal({
+            show: true,
+            backdrop: false
+        });
+
+        var model_edit = modelCollection.currentEditItem;
+        document.getElementById('model_id').value = model_edit.id;
+        document.getElementById('model_fullName').value = model_edit.fullName ? model_edit.fullName : "";
+        document.getElementById('model_description').value = model_edit.description ? model_edit.description : "";
+    }
+    function btnDeleteModelClick() {
+        modelCollection.editItem(modelCollection.currentItem);
+
+        if (confirm("Delete " + modelCollection.currentEditItem.fullName + "?") == true) {
+            $.ajax({
+                type: "Delete",
+                url: "/api/MstModel/Delete/" + modelCollection.currentEditItem.id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        alert('Successfully deleted.');
+                        refreshModelGrid();
+                    },
+                    404: function () {
+                        alert("Not found.");
+                    },
+                    400: function () {
+                        alert("Bad request.");
+                    }
+                }
+            });
+        }
+    }
+
+    // edit model modal operations
+    function btnOkEditModelModalClick() {
+        var model_edit = new Object();
+
+        model_edit.Id = document.getElementById('model_id').value;
+        model_edit.FullName = document.getElementById('model_fullName').value;
+        model_edit.Description = document.getElementById('model_description').value;
+
+        var data = JSON.stringify(model_edit);
+
+        if (model_edit.Id == 0) {
+            $.ajax({
+                type: "POST",
+                url: "/api/MstModel/Add",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: data,
+                success: function (id) {
+                    if (id > 0) {
+                        alert('Successfully added.');
+                        $('#mdlEditModel').modal('hide');
+                        refreshModelGrid();
+                    } else {
+                        alert("Error adding.");
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                type: "PUT",
+                url: "/api/MstModel/Save",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: data,
+                statusCode: {
+                    200: function () {
+                        alert('Successfully saved.');
+                        $('#mdlEditModel').modal('hide');
+                        refreshModelGrid();
+                    },
+                    404: function () {
+                        alert("Not found.");
+                    },
+                    400: function () {
+                        alert("Bad request.");
+                    }
+                }
+            });
+        }
+    }
+    function btnCancelEditModelModalClick() {
+        $('#mdlEditModel').modal('hide');
+    }
+
+    $(document).ready(function () {
+        cboModel = new wijmo.input.ComboBox('#video_model');
+        cboModelEdit = new wijmo.input.ComboBox('#video_model_edit');
+
+        // videos
+        btnNavGrdVideosFirst = document.getElementById('btnNavGrdVideosFirst');
+        btnNavGrdVideosPrevious = document.getElementById('btnNavGrdVideosPrevious');
+        btnNavGrdVideosCurrent = document.getElementById('btnNavGrdVideosCurrent');
+        btnNavGrdVideosNext = document.getElementById('btnNavGrdVideosNext');
+        btnNavGrdVideosLast = document.getElementById('btnNavGrdVideosLast');
+
+        listenNavGrdVideos();
+
+        makeVideoGrid();
+
+        // models
+        btnNavGrdModelsFirst = document.getElementById('btnNavGrdModelsFirst');
+        btnNavGrdModelsPrevious = document.getElementById('btnNavGrdModelsPrevious');
+        btnNavGrdModelsCurrent = document.getElementById('btnNavGrdModelsCurrent');
+        btnNavGrdModelsNext = document.getElementById('btnNavGrdModelsNext');
+        btnNavGrdModelsLast = document.getElementById('btnNavGrdModelsLast');
+
+        listenNavGrdModels();
+
+        makeModelGrid();
+    });
+</script>
+
+
+
+
