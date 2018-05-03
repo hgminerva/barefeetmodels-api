@@ -15,8 +15,8 @@ namespace barefeetmodels_api.Controllers
         private Data.BareFeetModelsDBDataContext db = new Data.BareFeetModelsDBDataContext();
 
         // list
-        [HttpGet, Route("List")]
-        public List<MstVideo> GetMstModel()
+        [HttpGet, Route("List/{skip}")]
+        public List<MstVideo> GetMstModel(String skip)
         {
             var videos = from d in db.MstVideos
                          orderby d.Id descending
@@ -34,7 +34,7 @@ namespace barefeetmodels_api.Controllers
                             FileSizeInBytes = d.FileSizeInBytes,
                             FileGifUrl = d.FileGifUrl
                          };
-            return videos.ToList();
+            return videos.Skip(Convert.ToInt32(skip)).Take(20).ToList();
         }
 
         // detail
