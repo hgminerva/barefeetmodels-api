@@ -187,3 +187,7 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/.vs/barefeetmodels-api/v15/Server/sqlite3/db.lock
+/.vs/barefeetmodels-api/v15/Server/sqlite3/storage.ide
+/.vs/barefeetmodels-api/v15/Server/sqlite3/storage.ide-shm
+/.vs/barefeetmodels-api/v15/Server/sqlite3/storage.ide-wal
